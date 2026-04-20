@@ -1,0 +1,7 @@
+[project]
+name = "mini-devin"
+version = "1.0.0"
+description = "A  multi-agent AI system that autonomously plans, generates, tests, debugs, and reviews code for any software task using Groq LLM and LangGraph orchestration."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []

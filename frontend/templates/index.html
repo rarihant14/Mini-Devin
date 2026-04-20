@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Devin — AI Software Engineer</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+<div class="app-wrapper">
+
+  <!-- ── Header ────────────────────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-brand">
+      <div class="brand-logo">🤖</div>
+      <div>
+        <div class="brand-name">Mini <span>Devin</span></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="header-badge"><span class="status-dot"></span>ONLINE</span>
+      <span class="header-badge">Groq · LangGraph · Pinecone</span>
+      <span class="header-badge">5 Agents</span>
+    </div>
+  </header>
+
+  <!-- ── Main ──────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Left: Input + Stream log -->
+    <section class="panel-left">
+
+      <!-- Task input -->
+      <div class="task-section">
+        <div class="section-label">Task Description</div>
+        <div class="task-input-wrapper">
+          <textarea
+            id="taskInput"
+            class="task-input"
+            placeholder="e.g. Build a REST API for a todo app with JWT authentication and SQLite..."
+          ></textarea>
+        </div>
+
+        <!-- Example chips -->
+        <div class="example-tasks">
+          <span class="example-chip" data-task="Build a REST API for a todo app with JWT authentication and SQLite database">📝 Todo REST API + Auth</span>
+          <span class="example-chip" data-task="Create a Python web scraper that extracts product prices and saves to CSV with rate limiting">🕷️ Web Scraper</span>
+          <span class="example-chip" data-task="Build a real-time chat application backend with WebSockets and Redis pub/sub">💬 Chat Backend</span>
+          <span class="example-chip" data-task="Create a CLI tool for managing environment variables with encryption and .env file support">🔐 Env Manager CLI</span>
+        </div>
+
+        <button id="runBtn" class="run-btn">
+          ▶ Run Pipeline &nbsp;<kbd style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);padding:1px 5px;border-radius:3px;font-size:11px;">Ctrl+↵</kbd>
+        </button>
+      </div>
+
+      <!-- Stream log -->
+      <div class="stream-section">
+        <div class="stream-header">
+          <div class="section-label" style="margin:0">Live Agent Stream</div>
+          <span style="font-size:10px;color:var(--text-muted);">SSE · real-time</span>
+        </div>
+        <div id="streamLog" class="stream-log">
+          <div class="empty-state">
+            <div class="empty-state-icon">🖥️</div>
+            <div class="empty-state-msg">
+              Describe a software task above and click <strong>Run Pipeline</strong>.<br/>
+              Agents will stream their progress here in real-time.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Tabs panel -->
+    <section class="panel-right">
+
+      <!-- Tabs -->
+      <div class="panel-tabs">
+        <button class="tab-btn active" data-tab="agents">Agents</button>
+        <button class="tab-btn" data-tab="files">Files</button>
+        <button class="tab-btn" data-tab="tests">Tests</button>
+        <button class="tab-btn" data-tab="review">Review</button>
+        <button class="tab-btn" data-tab="output">Report</button>
+      </div>
+
+      <!-- ── Agents tab ── -->
+      <div id="tab-agents" class="tab-content active">
+        <div class="agent-pipeline">
+
+          <div class="agent-card pending" data-agent="task_planner">
+            <div class="agent-card-header">
+              <div class="agent-name">
+                <span class="agent-icon">🧠</span> Task Planner
+              </div>
+              <span class="agent-status-badge badge-pending">Pending</span>
+            </div>
+            <div class="agent-detail">Breaks user task into subtasks and tech stack</div>
+            <div class="agent-progress-bar"><div class="agent-progress-fill"></div></div>
+          </div>
+
+          <div class="agent-card pending" data-agent="code_generator">
+            <div class="agent-card-header">
+              <div class="agent-name">
+                <span class="agent-icon">⚙️</span> Code Generator
+              </div>
+              <span class="agent-status-badge badge-pending">Pending</span>
+            </div>
+            <div class="agent-detail">Generates production-ready code files using Groq LLM</div>
+            <div class="agent-progress-bar"><div class="agent-progress-fill"></div></div>
+          </div>
+
+          <div class="agent-card pending" data-agent="tester">
+            <div class="agent-card-header">
+              <div class="agent-name">
+                <span class="agent-icon">🧪</span> Tester
+              </div>
+              <span class="agent-status-badge badge-pending">Pending</span>
+            </div>
+            <div class="agent-detail">Generates and simulates unit, integration, and e2e tests</div>
+            <div class="agent-progress-bar"><div class="agent-progress-fill"></div></div>
+          </div>
+
+          <div class="agent-card pending" data-agent="debugger">
+            <div class="agent-card-header">
+              <div class="agent-name">
+                <span class="agent-icon">🐛</span> Debugger
+              </div>
+              <span class="agent-status-badge badge-pending">Pending</span>
+            </div>
+            <div class="agent-detail">Analyzes failing tests and applies targeted code fixes</div>
+            <div class="agent-progress-bar"><div class="agent-progress-fill"></div></div>
+          </div>
+
+          <div class="agent-card pending" data-agent="reviewer">
+            <div class="agent-card-header">
+              <div class="agent-name">
+                <span class="agent-icon">🔍</span> Reviewer
+              </div>
+              <span class="agent-status-badge badge-pending">Pending</span>
+            </div>
+            <div class="agent-detail">Scores code quality, security, performance, and maintainability</div>
+            <div class="agent-progress-bar"><div class="agent-progress-fill"></div></div>
+          </div>
+
+        </div>
+
+        <!-- Pipeline info -->
+        <div style="margin-top:20px;padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text-muted);line-height:1.7;">
+          <strong style="color:var(--text-secondary);">Pipeline Architecture</strong><br/>
+          Plan → Generate → Test → Debug (if needed) → Review<br/>
+          Async SSE streaming · Redis message bus · Pinecone vector cache<br/>
+          Max 3 retries per agent · Exponential backoff
+        </div>
+      </div>
+
+      <!-- ── Files tab ── -->
+      <div id="tab-files" class="tab-content">
+        <div id="filesContainer" class="file-list">
+          <div class="empty-state">
+            <div class="empty-state-icon">📁</div>
+            <div class="empty-state-msg">Files will appear here once the Code Generator runs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Tests tab ── -->
+      <div id="tab-tests" class="tab-content">
+        <div id="testsContainer">
+          <div class="empty-state">
+            <div class="empty-state-icon">🧪</div>
+            <div class="empty-state-msg">Test results will appear here after the Tester agent runs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Review tab ── -->
+      <div id="tab-review" class="tab-content">
+        <div id="reviewContainer">
+          <div class="empty-state">
+            <div class="empty-state-icon">⭐</div>
+            <div class="empty-state-msg">Code review score and comments will appear here</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Output tab ── -->
+      <div id="tab-output" class="tab-content">
+        <div id="outputContainer">
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div class="empty-state-msg">The final project report will appear here after pipeline completes</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

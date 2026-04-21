@@ -1,7 +1,7 @@
 # 🚀 Mini Devin — AI Software Engineer Agent
 ---
 
-A production-grade **multi-agent AI system** that autonomously plans, generates, tests, debugs, and reviews code for any software task.
+A **multi-agent AI system** that autonomously plans, generates, tests, debugs, and reviews code for any software task.
 
 ---
 
